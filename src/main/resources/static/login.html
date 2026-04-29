@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/styling.css">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Travel Destination Suggester</h2>
+        <p>Please login to continue</p>
+
+        <form action="/login" method="post">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            <input type="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <a href="/signup.html">Go to Sign Up</a>
+
+        <div class="footer-text">
+            <p>Forgot password?</p>
+        </div>
+        <p class="footer-text">
+            Don't have an account? <a href="/signup.html">Sign up</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
