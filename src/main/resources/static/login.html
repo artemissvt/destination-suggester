@@ -15,18 +15,20 @@
         <form action="/login" method="post">
             <label>Username:</label>
             <input type="text" name="username" required>
-            <input type="password" name="password" required>
+            <label>Password:</label>
+            <input type="password" name="user_password" required>
             <button type="submit">Login</button>
         </form>
 
-        <a href="/signup.html">Go to Sign Up</a>
-
-        <div class="footer-text">
-            <p>Forgot password?</p>
-        </div>
         <p class="footer-text">
             Don't have an account? <a href="/signup.html">Sign up</a>
         </p>
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("error")) {
+                alert("Invalid username or password");
+            }
+        </script>
     </div>
 </div>
 

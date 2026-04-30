@@ -6,22 +6,15 @@ import java.sql.SQLException;
 
 public class DbConn {
     public static Connection getConnection() {
-
-        // initialize connection with the database
-        Connection conn = null;
         try {
-
-            // connect the db url and the user with its password ( already made on the database)
-            String url = "jdbc:mysql://localhost:3306/hangmangame";
+            String url = "jdbc:mysql://localhost:3306/destinationdb";
             String user = "root";
             String password = "Password1";
-            conn = DriverManager.getConnection(url, user, password);
-            return conn;
 
-        }
-        catch (SQLException se) {
-            System.out.println(se.getMessage());
-            return null;
+            return DriverManager.getConnection(url, user, password);
+
+        } catch (SQLException se) {
+            throw new RuntimeException("Database connection failed: " + se.getMessage());
         }
     }
 

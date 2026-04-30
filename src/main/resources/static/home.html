@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/styling.css">
+</head>
+<body>
+<script>
+    fetch("/check-session")
+        .then(res => res.text())
+        .then(data => {
+            if (data !== "LOGGED_IN") {
+                window.location.href = "/login.html";
+            }
+        });
+</script>
+<div class="full-page">
+
+    <h1>Tell us your dream destination 🌍</h1>
+
+    <div class="hint-card">
+
+        <strong>Describe your ideal destination</strong>
+
+        <span>
+        Tell us what kind of trip you want: season you 'd like to visit, vibe, activities, budget, etc.
+    </span>
+
+        <br><br>
+
+        <strong>Example</strong>
+
+        <span>
+        A summer destination, coastal city with beaches, nightlife, affordable food, and cultural landmarks
+    </span>
+
+    </div>
+
+    <form action="/generate" method="post" class="input-form">
+
+        <input class="prompt-bar"
+               type="text"
+               name="destinationDescription"
+               placeholder="Type your ideal destination..."
+               required>
+
+        <button type="submit">Get AI Suggestions</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -3,20 +3,15 @@ package com.example.destinationsuggester;
 public class User {
 
     private String username;
-    private String email;
-    private String password;
+    private String user_password;
 
     // getters
     public String getUsername() {
         return username;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getPassword() {
-        return password;
+        return user_password;
     }
 
     // setters
@@ -24,11 +19,8 @@ public class User {
         this.username = username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String user_password) {
+        this.user_password = user_password;
     }
 }
