@@ -16,16 +16,23 @@ public class AiController {
 
     @PostMapping("/generate")
     public String generate(
-            @RequestParam("destinationDescription") String text,
-            HttpSession session,
-            Model model) {
+            @RequestParam String destinationDescription,
+            HttpSession session) {
 
-        String session_id = session.getId();
+        String sessionId = session.getId();
 
-        String response = pythonApiService.callPython(text, session_id);
+        String resultJson = pythonApiService.getRecommendations(destinationDescription, sessionId);
 
-        model.addAttribute("result", response);
+        // store FULL JSON
+        session.setAttribute("result", resultJson);
 
-        return "result";
+        return "redirect:/result.html";
+    }
+
+    @GetMapping("/get-result")
+    @ResponseBody
+    public String getResult(HttpSession session) {
+        Object result = session.getAttribute("result");
+        return result != null ? result.toString() : "{}";
     }
 }

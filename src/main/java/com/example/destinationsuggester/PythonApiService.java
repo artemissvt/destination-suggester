@@ -15,13 +15,15 @@ public class PythonApiService {
         this.restTemplate = restTemplate;
     }
 
-    public String callPython(String text, String session_id) {
+    public String getRecommendations(String text, String sessionId) {
+
+        RestTemplate restTemplate = new RestTemplate();
 
         String url = "http://localhost:8000/recommend";
 
         Map<String, String> body = new HashMap<>();
         body.put("text", text);
-        body.put("session_id", session_id);
+        body.put("session_id", sessionId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
