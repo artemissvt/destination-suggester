@@ -7,13 +7,25 @@
 </head>
 <body>
 <script>
-    fetch("/check-session")
-        .then(res => res.text())
-        .then(data => {
-            if (data !== "LOGGED_IN") {
+    function verifySession() {
+        fetch("/check-session", {
+            credentials: "include"
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (!data || data.status !== "LOGGED_IN") {
+                    window.location.href = "/login.html";
+                }
+            })
+            .catch(() => {
                 window.location.href = "/login.html";
-            }
-        });
+            });
+    }
+
+    verifySession();
+
+    // optional: re-check every 30 seconds
+    setInterval(verifySession, 30000);
 </script>
 <div class="full-page">
 

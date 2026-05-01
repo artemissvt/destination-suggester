@@ -8,12 +8,20 @@ import jakarta.servlet.http.HttpSession;
 public class SessionController {
 
     @GetMapping("/check-session")
-    public String checkSession(HttpSession session) {
+    public Object checkSession(HttpSession session) {
 
-        if (session.getAttribute("user") != null) {
-            return "LOGGED_IN";
+        Object user = session.getAttribute("user");
+
+        if (user != null) {
+            return new Object() {
+                public final String status = "LOGGED_IN";
+                public final String username = user.toString();
+                public final String session_id = session.getId();
+            };
         } else {
-            return "NOT_LOGGED_IN";
+            return new Object() {
+                public final String status = "NOT_LOGGED_IN";
+            };
         }
     }
 }
