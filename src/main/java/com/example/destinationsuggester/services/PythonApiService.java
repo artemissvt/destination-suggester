@@ -1,4 +1,4 @@
-package com.example.destinationsuggester;
+package com.example.destinationsuggester.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

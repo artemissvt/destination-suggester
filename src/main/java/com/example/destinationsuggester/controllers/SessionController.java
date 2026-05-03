@@ -1,4 +1,4 @@
-package com.example.destinationsuggester;
+package com.example.destinationsuggester.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

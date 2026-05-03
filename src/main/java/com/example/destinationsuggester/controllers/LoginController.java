@@ -1,5 +1,6 @@
-package com.example.destinationsuggester;
+package com.example.destinationsuggester.controllers;
 
+import com.example.destinationsuggester.DbConn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class LoginController {
             @RequestParam String user_password,
             HttpSession session) {
 
-        String sql = "SELECT user_password FROM users WHERE username = ?";
+        String sql = "SELECT user_id, user_password FROM users WHERE username = ?";
 
         try (Connection conn = DbConn.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -39,12 +40,13 @@ public class LoginController {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                int user_id = rs.getInt("user_id"); // ✅ comes from DB
                 String storedHash = rs.getString("user_password");
 
                 if (passwordEncoder.matches(user_password.trim(), storedHash)) {
 
-                    // ✅ CREATE SESSION
                     session.setAttribute("user", username);
+                    session.setAttribute("user_id", user_id); // ✅ store in session
 
                     return "redirect:/home.html";
                 }

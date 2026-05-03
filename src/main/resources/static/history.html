@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link rel="stylesheet" href="/css/styling.css">
+</head>
+<body>
+
+<div class="full-page">
+
+    <div class="header-bar">
+        <h1>Your Search History 📜</h1>
+    </div>
+
+    <div id="history-container" class="results-container"></div>
+
+    <button onclick="window.location.href='/home.html'">
+        Back to Home
+    </button>
+
+</div>
+
+<script>
+    function checkSession() {
+        return fetch("/check-session")
+            .then(res => res.json())
+            .then(data => {
+                if (!data || data.status !== "LOGGED_IN") {
+                    window.location.href = "/login.html";
+                    throw new Error("Not logged in");
+                }
+            });
+    }
+
+    function loadHistory() {
+        fetch("/history")
+            .then(res => res.json())
+            .then(data => {
+
+                const container = document.getElementById("history-container");
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = "<p>No history yet.</p>";
+                    return;
+                }
+
+                let html = "";
+
+                data.forEach((entry, index) => {
+
+                    // parse JSON string into object
+                    const parsed = JSON.parse(entry);
+
+                    html += `<h3>Search #${index + 1}</h3>`;
+
+                    parsed.recommendations.forEach(item => {
+                        html += `
+                        <div class="result-card">
+                            <strong>${item.Destination}</strong>
+                            <span>${item.Country}</span>
+                        </div>
+                    `;
+                    });
+
+                });
+
+                container.innerHTML = html;
+            });
+    }
+
+    checkSession().then(loadHistory);
+</script>
+
+</body>
+</html>
