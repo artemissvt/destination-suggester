@@ -1,5 +1,6 @@
 package com.example.destinationsuggester.services;
 
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
@@ -17,9 +18,13 @@ public class PythonApiService {
 
     public String getRecommendations(String text, String sessionId) {
 
-        RestTemplate restTemplate = new RestTemplate();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(10000);
 
-        String url = "http://localhost:8000/recommend";
+        RestTemplate restTemplate = new RestTemplate(factory);
+
+        String url = "https://ml-travel-suggest-2568f.ondigitalocean.app/recommend";
 
         Map<String, String> body = new HashMap<>();
         body.put("text", text);

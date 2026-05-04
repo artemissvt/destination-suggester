@@ -40,13 +40,13 @@ public class LoginController {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int user_id = rs.getInt("user_id"); // ✅ comes from DB
+                int user_id = rs.getInt("user_id");
                 String storedHash = rs.getString("user_password");
 
                 if (passwordEncoder.matches(user_password.trim(), storedHash)) {
 
                     session.setAttribute("user", username);
-                    session.setAttribute("user_id", user_id); // ✅ store in session
+                    session.setAttribute("user_id", user_id);
 
                     return "redirect:/home.html";
                 }
