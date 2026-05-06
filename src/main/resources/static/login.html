@@ -5,12 +5,13 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="/css/styling.css">
 </head>
-<body>
+<body class="auth-page">
 
 <div class="login-container">
     <div class="login-box">
         <h2>Travel Destination Suggester</h2>
         <p>Please login to continue</p>
+        <p id="error-msg" class="error-message"></p>
 
         <form action="/login" method="post">
             <label>Username:</label>
@@ -34,3 +35,17 @@
 
 </body>
 </html>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    if (error) {
+        const msg = document.getElementById("error-msg");
+
+        if (error === "true") {
+            msg.textContent = "Invalid username or password.";
+        } else if (error === "db") {
+            msg.textContent = "Database error. Try again.";
+        }
+    }
+</script>

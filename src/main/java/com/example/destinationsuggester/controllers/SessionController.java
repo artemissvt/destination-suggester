@@ -1,5 +1,6 @@
 package com.example.destinationsuggester.controllers;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpSession;
@@ -22,6 +23,15 @@ public class SessionController {
             return new Object() {
                 public final String status = "NOT_LOGGED_IN";
             };
+        }
+    }
+
+    @Controller
+    public static class HomeRedirectController {
+
+        @GetMapping("/")
+        public String redirectToLogin() {
+            return "redirect:/login.html";
         }
     }
 }

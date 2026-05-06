@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @RestController
@@ -22,32 +23,53 @@ public class SignupController {
             @RequestParam String user_password,
             @RequestParam String confirm_password) {
 
-        //  CHECK IF PASSWORDS MATCH
+        // CHECK IF PASSWORDS MATCH
         if (!user_password.equals(confirm_password)) {
             return ResponseEntity
-                    .badRequest()
-                    .body("Passwords do not match!");
+                    .status(302)
+                    .header("Location", "/signup.html?error=password_mismatch")
+                    .build();
         }
 
-        String sql = "INSERT INTO users (username, user_password) VALUES (?, ?)";
+        String checkSql = "SELECT * FROM users WHERE username = ?";
+        String insertSql = "INSERT INTO users (username, user_password) VALUES (?, ?)";
 
-        try (Connection conn = DbConn.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DbConn.getConnection()) {
 
-            String hashedPassword = passwordEncoder.encode(user_password);
+            // CHECK IF USERNAME EXISTS
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setString(1, username.trim());
 
-            stmt.setString(1, username);
+            ResultSet checkRs = checkStmt.executeQuery();
+
+            if (checkRs.next()) {
+                return ResponseEntity
+                        .status(302)
+                        .header("Location", "/signup.html?error=username_taken")
+                        .build();
+            }
+
+            // INSERT USER
+            PreparedStatement stmt = conn.prepareStatement(insertSql);
+
+            String hashedPassword = passwordEncoder.encode(user_password.trim());
+
+            stmt.setString(1, username.trim());
             stmt.setString(2, hashedPassword);
 
             stmt.executeUpdate();
-                    return ResponseEntity
+
+            return ResponseEntity
                     .status(302)
                     .header("Location", "/login.html")
                     .build();
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error creating user.");
+            return ResponseEntity
+                    .status(302)
+                    .header("Location", "/signup.html?error=db")
+                    .build();
         }
     }
 }

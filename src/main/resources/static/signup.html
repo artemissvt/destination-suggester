@@ -4,12 +4,13 @@
     <title>Sign Up</title>
     <link rel="stylesheet" href="/css/styling.css">
 </head>
-<body>
+<body class="auth-page">
 
 <div class="login-container">
     <div class="login-box">
         <h2>Create Account</h2>
         <p>Sign up to get started</p>
+        <p id="error-msg" class="error-message"></p>
 
         <form action="/signup" method="post">
 
@@ -31,3 +32,19 @@
 
 </body>
 </html>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    const msg = document.getElementById("error-msg");
+
+    if (error === "username_taken") {
+        msg.textContent = "Username already exists.";
+    }
+    if (error === "password_mismatch") {
+        msg.textContent = "Passwords do not match.";
+    }
+    if (error === "db") {
+        msg.textContent = "Something went wrong. Try again.";
+    }
+</script>
