@@ -31,7 +31,7 @@ public class SessionController {
 
         @GetMapping("/")
         public String redirectToLogin() {
-            return "redirect:/login.html";
+            return "redirect:/welcome.html";
         }
     }
 }
